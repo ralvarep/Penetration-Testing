@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| Penetration-Testing Scenario |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Name:        Penetration-Testing
+
+Description: Virtual scenario for Network Penetration Testing
+
+Author:      Raúl Álvarez Pinilla
+-->
+
+<vnx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="/usr/share/xml/vnx/vnx-2.00.xsd">
+  <global>
+    <version>2.0</version>
+    <scenario_name>Penetration-Testing</scenario_name>
+    <automac/>
+    <vm_mgmt type="private" network="10.250.0.0" mask="24" offset="0">
+       <host_mapping />
+    </vm_mgmt>
+    <vm_defaults>
+        <console id="0" display="no"/>
+        <console id="1" display="yes"/>
+    </vm_defaults>
+  </global>
+
+  <!-- NET DEFINITION -->
+  <!-- virbr0 (192.168.122.0/24) -->
+  <net name="virbr0" mode="virtual_bridge" managed="no"/>
+
+  <!-- USER -->
+  <vm name="user" type="libvirt" subtype="kvm" os="linux" exec_mode="sdisk" arch="x86_64">
+    <filesystem type="cow">filesystems/XXXX</filesystem>
+    <mem>2G</mem>
+    <if id="1" net="virbr0">
+      <ipv4>dhcp,192.168.122.11</ipv4>
+    </if>
+  </vm>
+
+  <!-- KALI -->
+  <vm name="kali" type="libvirt" subtype="kvm" os="linux" exec_mode="sdisk" arch="x86_64">
+    <filesystem type="cow">filesystems/XXXX</filesystem>
+    <mem>2G</mem>
+    <if id="1" net="virbr0">
+      <ipv4>dhcp,192.168.122.100</ipv4>
+    </if>
+  </vm>
+
+</vnx>
