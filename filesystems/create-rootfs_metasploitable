@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#
+# Configuration
+#
+
+NAME=metasploitable
+TMP_FOLDER=tmp-$NAME
+
+#
+# Script
+#
+
+cd `dirname $0`
+CDIR=$(pwd)
+
+if [ -a rootfs/$NAME.* ]; then
+  rm -f rootfs/$NAME.*
+  rm -f rootfs_$NAME
+  rm -dfr $TMP_FOLDER
+fi
+
+mkdir -p $TMP_FOLDER
+cd $TMP_FOLDER
+vnx_download_rootfs -r vnx_rootfs_kvm_ubuntu-8.04-metasploitable2-v025.qcow2.bz2
+mkdir -p $CDIR/rootfs
+cd $CDIR
+mv $TMP_FOLDER/*.qcow2 rootfs/$NAME.qcow2
+ln -s rootfs/$NAME.qcow2 rootfs_$NAME
+rm -rf $TMP_FOLDER

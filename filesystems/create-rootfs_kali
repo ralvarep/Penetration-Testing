@@ -1,0 +1,31 @@
+#!/bin/bash
+
+#
+# Configuration
+#
+
+NAME=kali
+TMP_FOLDER=tmp-$NAME
+
+#
+# Script
+#
+
+cd `dirname $0`
+CDIR=$(pwd)
+
+if [ -a rootfs/$NAME.* ]; then
+  rm -f rootfs/$NAME.*
+  rm -f rootfs_$NAME
+  rm -dfr $TMP_FOLDER
+fi
+
+mkdir -p $TMP_FOLDER
+cd $TMP_FOLDER
+wget https://images.offensive-security.com/virtual-images/Kali-Linux-2016.2-vbox-amd64.ova
+tar -xvf *.ova
+mkdir -p $CDIR/rootfs
+cd $CDIR
+mv $TMP_FOLDER/*.vmdk rootfs/$NAME.vmdk
+ln -s rootfs/$NAME.vmdk rootfs_$NAME
+rm -rf $TMP_FOLDER
