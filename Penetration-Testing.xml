@@ -18,34 +18,96 @@ Author:      Raúl Álvarez Pinilla
     <version>2.0</version>
     <scenario_name>Penetration-Testing</scenario_name>
     <automac/>
-    <vm_mgmt type="private" network="10.250.0.0" mask="24" offset="0">
-       <host_mapping />
-    </vm_mgmt>
+    <vm_mgmt type="none" />
     <vm_defaults>
-        <console id="0" display="no"/>
-        <console id="1" display="yes"/>
+        <console id="0" display="yes"/>
+        <console id="1" display="no"/>
     </vm_defaults>
   </global>
 
   <!-- NET DEFINITION -->
   <!-- virbr0 (192.168.122.0/24) -->
-  <net name="virbr0" mode="virtual_bridge" managed="no"/>
+  <net name="virbr0"  mode="virtual_bridge" managed="no"/>
+  <!-- net (10.0.0.0/24) -->
+  <net name="IntNet" mode="virtual_bridge"/>
 
-  <!-- USER -->
-  <vm name="user" type="libvirt" subtype="kvm" os="linux" exec_mode="sdisk" arch="x86_64">
-    <filesystem type="cow">filesystems/XXXX</filesystem>
-    <mem>2G</mem>
+
+  <!-- ROUTER -->
+  <vm name="router" type="libvirt" subtype="kvm" os="linux" arch="x86_64">
+    <filesystem type="direct">filesystems/rootfs_router</filesystem>
+    <mem>1G</mem>
+    <console id="0" display="no"/>
+    <console id="1" display="yes"/>
     <if id="1" net="virbr0">
-      <ipv4>dhcp,192.168.122.11</ipv4>
+      <ipv4>dhcp</ipv4>
     </if>
+    <if id="2" net="IntNet">
+      <ipv4>10.0.0.1/24</ipv4>
+    </if>
+    <forwarding type="ip" />
+
+    <!-- Configure NAT -->
+    <exec seq="on_boot" type="verbatim">
+        iptables -v -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+        iptables -v -A FORWARD -i eth1 -o eth2 -m state --state RELATED,ESTABLISHED -j ACCEPT
+        iptables -v -A FORWARD -i eth2 -o eth1 -j ACCEPT
+    </exec>
   </vm>
 
   <!-- KALI -->
-  <vm name="kali" type="libvirt" subtype="kvm" os="linux" exec_mode="sdisk" arch="x86_64">
-    <filesystem type="cow">filesystems/XXXX</filesystem>
+  <vm name="kali" type="libvirt" subtype="kvm" os="linux" arch="x86_64">
+    <filesystem type="direct">filesystems/rootfs_kali</filesystem>
     <mem>2G</mem>
-    <if id="1" net="virbr0">
-      <ipv4>dhcp,192.168.122.100</ipv4>
+    <video>vga</video>
+    <if id="1" net="IntNet">
+      <ipv4>10.0.0.100/24</ipv4>
+    </if>
+    <route type="ipv4" gw="10.0.0.1">default</route>
+
+    <!-- Configure DNS Server -->
+    <exec seq="on_boot" type="verbatim">
+        echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+    </exec>
+  </vm>
+
+  <!-- USER - Metasploitable -->
+  <vm name="msf" type="libvirt" subtype="kvm" os="linux" arch="x86_64">
+    <filesystem type="direct">filesystems/rootfs_metasploitable</filesystem>
+    <mem>1G</mem>
+    <console id="0" display="no"/>
+    <console id="1" display="yes"/>
+    <if id="1" net="IntNet">
+      <ipv4>10.0.0.11/24</ipv4>
+    </if>
+    <route type="ipv4" gw="10.0.0.1">default</route>
+
+    <!-- Configure DNS Server -->
+    <exec seq="on_boot" type="verbatim">
+        echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+    </exec>
+  </vm>
+
+  <!-- USER - Ubuntu 16.04 -->
+  <vm name="ubuntu" type="libvirt" subtype="kvm" os="linux" arch="x86_64">
+    <filesystem type="direct">filesystems/rootfs_ubuntu</filesystem>
+    <mem>2G</mem>
+    <if id="1" net="IntNet">
+      <ipv4>10.0.0.12/24</ipv4>
+    </if>
+    <route type="ipv4" gw="10.0.0.1">default</route>
+
+    <!-- Configure DNS Server -->
+    <exec seq="on_boot" type="verbatim">
+        echo "nameserver 8.8.8.8" >> /etc/resolv.conf 
+    </exec>
+  </vm>
+
+  <!-- USER - Windows 7 -->
+  <vm name="windows" type="libvirt" subtype="kvm" os="windows" arch="x86_64">
+    <filesystem type="direct">filesystems/rootfs_windows7</filesystem>
+    <mem>2G</mem>
+    <if id="1" net="IntNet">
+      <ipv4>10.0.0.13/24</ipv4>
     </if>
   </vm>
 
