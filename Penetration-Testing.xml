@@ -40,9 +40,11 @@ Author:      Raúl Álvarez Pinilla
     <console id="1" display="yes"/>
     <if id="1" net="virbr0">
       <ipv4>dhcp</ipv4>
+      <ipv6>2001:db8::1/64</ipv6>
     </if>
     <if id="2" net="IntNet">
       <ipv4>10.0.0.1/24</ipv4>
+      <ipv6>2001:db8:1::1/64</ipv6>
     </if>
     <forwarding type="ip" />
 
@@ -61,8 +63,10 @@ Author:      Raúl Álvarez Pinilla
     <video>vga</video>
     <if id="1" net="IntNet">
       <ipv4>10.0.0.100/24</ipv4>
+      <ipv6>2001:db8:1::100/64</ipv6>
     </if>
     <route type="ipv4" gw="10.0.0.1">default</route>
+    <route type="ipv6" gw="2001:db8:1::1">default</route>
 
     <!-- Configure DNS Server -->
     <exec seq="on_boot" type="verbatim">
@@ -78,8 +82,10 @@ Author:      Raúl Álvarez Pinilla
     <console id="1" display="yes"/>
     <if id="1" net="IntNet">
       <ipv4>10.0.0.11/24</ipv4>
+      <ipv6>2001:db8:1::11/64</ipv6>
     </if>
     <route type="ipv4" gw="10.0.0.1">default</route>
+    <route type="ipv6" gw="2001:db8:1::1">default</route>
 
     <!-- Configure DNS Server -->
     <exec seq="on_boot" type="verbatim">
@@ -93,8 +99,10 @@ Author:      Raúl Álvarez Pinilla
     <mem>2G</mem>
     <if id="1" net="IntNet">
       <ipv4>10.0.0.12/24</ipv4>
+      <ipv6>2001:db8:1::12/64</ipv6>
     </if>
     <route type="ipv4" gw="10.0.0.1">default</route>
+    <route type="ipv6" gw="2001:db8:1::1">default</route>
 
     <!-- Configure DNS Server -->
     <exec seq="on_boot" type="verbatim">
@@ -108,7 +116,10 @@ Author:      Raúl Álvarez Pinilla
     <mem>2G</mem>
     <if id="1" net="IntNet">
       <ipv4>10.0.0.13/24</ipv4>
+      <ipv6>2001:db8:1::12/64</ipv6>
     </if>
+    <route type="ipv4" gw="10.0.0.1">default</route>
+    <route type="ipv6" gw="2001:db8:1::1">default</route>
   </vm>
 
 </vnx>
