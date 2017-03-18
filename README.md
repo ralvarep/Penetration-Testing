@@ -22,7 +22,7 @@ Index:
 
 ## Scenario
 
-![Scenario](https://raw.githubusercontent.com/ralvarep/Penetration-Testing/master/img/scenario.jpg)
+![Scenario](https://raw.githubusercontent.com/ralvarep/Penetration-Testing/master/img/scenario.png)
 
 
 ## Usage
