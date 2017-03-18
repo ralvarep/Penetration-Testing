@@ -22,9 +22,9 @@ fi
 
 mkdir -p $TMP_FOLDER
 cd $TMP_FOLDER
-wget https://az412801.vo.msecnd.net/vhd/VMBuild_20141027/VirtualBox/IE10/Windows/IE10.Win7.For.Windows.VirtualBox.zip
+#wget https://az412801.vo.msecnd.net/vhd/VMBuild_20141027/VirtualBox/IE10/Windows/IE10.Win7.For.Windows.VirtualBox.zip
+wget https://az412801.vo.msecnd.net/vhd/VMBuild_20141027/VMware/IE10/Windows/IE10.Win7.For.Windows.VMware.zip
 unzip *.zip
-tar -xvf *.ova
 mkdir -p $CDIR/rootfs
 cd $CDIR
 mv $TMP_FOLDER/*.vmdk rootfs/$NAME.vmdk
