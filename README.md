@@ -46,7 +46,7 @@ When the scenario is created, you can login to consoles with root:xxxx.
 
 **STEP 4 (Optional): Network Configuration in Windows 7**
 
-If you want to use Windows 7 in the scenario, you have to configure network settings.
+If you want to use Windows 7 in the scenario, you have to configure the following network settings:
 
 * For IPv4:
 
