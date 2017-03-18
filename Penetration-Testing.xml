@@ -7,7 +7,7 @@
 
 Name:        Penetration-Testing
 
-Description: Virtual scenario for Network Penetration Testing
+Description: Virtual scenario for Penetration Testing
 
 Author:      Raúl Álvarez Pinilla
 -->
@@ -31,10 +31,9 @@ Author:      Raúl Álvarez Pinilla
   <!-- net (10.0.0.0/24) -->
   <net name="IntNet" mode="virtual_bridge"/>
 
-
   <!-- ROUTER -->
   <vm name="router" type="libvirt" subtype="kvm" os="linux" arch="x86_64">
-    <filesystem type="direct">filesystems/rootfs_router</filesystem>
+    <filesystem type="cow">filesystems/rootfs_router</filesystem>
     <mem>1G</mem>
     <console id="0" display="no"/>
     <console id="1" display="yes"/>
@@ -58,7 +57,7 @@ Author:      Raúl Álvarez Pinilla
 
   <!-- KALI -->
   <vm name="kali" type="libvirt" subtype="kvm" os="linux" arch="x86_64">
-    <filesystem type="direct">filesystems/rootfs_kali</filesystem>
+    <filesystem type="cow">filesystems/rootfs_kali</filesystem>
     <mem>2G</mem>
     <video>vga</video>
     <if id="1" net="IntNet">
@@ -76,7 +75,7 @@ Author:      Raúl Álvarez Pinilla
 
   <!-- USER - Metasploitable -->
   <vm name="msf" type="libvirt" subtype="kvm" os="linux" arch="x86_64">
-    <filesystem type="direct">filesystems/rootfs_metasploitable</filesystem>
+    <filesystem type="cow">filesystems/rootfs_metasploitable</filesystem>
     <mem>1G</mem>
     <console id="0" display="no"/>
     <console id="1" display="yes"/>
@@ -95,7 +94,7 @@ Author:      Raúl Álvarez Pinilla
 
   <!-- USER - Ubuntu 16.04 -->
   <vm name="ubuntu" type="libvirt" subtype="kvm" os="linux" arch="x86_64">
-    <filesystem type="direct">filesystems/rootfs_ubuntu</filesystem>
+    <filesystem type="cow">filesystems/rootfs_ubuntu</filesystem>
     <mem>2G</mem>
     <if id="1" net="IntNet">
       <ipv4>10.0.0.12/24</ipv4>
@@ -112,11 +111,11 @@ Author:      Raúl Álvarez Pinilla
 
   <!-- USER - Windows 7 -->
   <vm name="windows" type="libvirt" subtype="kvm" os="windows" arch="x86_64">
-    <filesystem type="direct">filesystems/rootfs_windows7</filesystem>
+    <filesystem type="cow">filesystems/rootfs_windows7</filesystem>
     <mem>2G</mem>
     <if id="1" net="IntNet">
       <ipv4>10.0.0.13/24</ipv4>
-      <ipv6>2001:db8:1::12/64</ipv6>
+      <ipv6>2001:db8:1::13/64</ipv6>
     </if>
     <route type="ipv4" gw="10.0.0.1">default</route>
     <route type="ipv6" gw="2001:db8:1::1">default</route>
